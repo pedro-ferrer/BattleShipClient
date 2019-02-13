@@ -1,15 +1,12 @@
 // Package dependencies
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
-import { compose, graphql, withApollo } from 'react-apollo';
 
 // Local dependencies
 import { putShipsOnCells } from '../../helpers/game/ships';
 import { ships as gameShips, } from '../../constants';
 import Board from '../board/Board.component';
 import SurrenderModal from '../surrender_modal/SurrenderModal.component';
-import { SurrenderGame, StartGame } from '../../graphql/mutations/Game';
-import { TestUsers } from '../../graphql/queries/Game';
 
 
 const MOCK_GAME_MATRIX = [
@@ -43,25 +40,12 @@ class Game extends Component {
 
   onClick = (x, y, newStatus) => {
     // TODO: Make a mutation to modify Game's current status based on the current action
-    //console.log('$ x, y, newStatus', x, y, newStatus); // eslint-disable-line
-    this.props.StartGame({
-      variables:{
-        playerId: '1',
-        settings: {}
-      }
-    })
+    console.log('$ x, y, newStatus', x, y, newStatus); // eslint-disable-line
   };
 
   surrenderGame = () => {
     // TODO: Make a mutation to modify Game's current status based on the current action
-    //console.log('$ Player surrenders !'); // eslint-disable-line
-    this.props.SurrenderGame({
-      variables:{
-        playerId: '1',
-        gameId: '1'
-      },
-      refetchQueries:[{query: TestUsers}]
-    })
+    console.log('$ Player surrenders !'); // eslint-disable-line
   };
 
   render() {
@@ -81,8 +65,5 @@ class Game extends Component {
   }
 }
 
-export default compose(
-  withApollo,
-  graphql(SurrenderGame, {name:"SurrenderGame"}),
-  graphql(StartGame, {name:"StartGame"})
-)(Game);
+
+export default Game;

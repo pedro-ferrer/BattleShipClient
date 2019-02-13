@@ -1,24 +1,16 @@
 import gql from 'graphql-tag';
 
 
-//const FetchCurrentGames = gql``;
+const FetchCurrentGames = gql``;
 
-//const FetchMyGames = gql``;
+const FetchMyGames = gql``;
 
-//const FetchGameData = gql``;
-
-const TestUsers = gql`
-  query{
-    users{
-      id,
-      name
-    }
-  }
-`
+const FetchGameData = gql`
+  query FetchGameData(id: String!) {}
+`;
 
 export {
-  //FetchCurrentGames,
-  // FetchMyGames,
-  // FetchGameData,
-  TestUsers
+  FetchCurrentGames,
+  FetchMyGames,
+  FetchGameData,
 };

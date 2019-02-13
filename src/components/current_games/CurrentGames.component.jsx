@@ -1,5 +1,6 @@
 // Package dependencies
 import React, { Component, Fragment } from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
 import moment from 'moment';
 import { Table } from 'reactstrap';
 
