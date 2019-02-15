@@ -1,16 +1,17 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
-
-const FetchCurrentGames = gql``;
-
-const FetchMyGames = gql``;
-
-const FetchGameData = gql`
-  query FetchGameData(id: String!) {}
+const GetAllCurrentGameByPlayer = gql`
+  query getAllCurrentGameByPlayer($idPlayer:ID){
+    getAllCurrentGameByPlayer(idPlayer:$idPlayer){
+      id
+      createdAt
+      timePlayed
+      currentTurn{
+        id
+        name
+      }
+    }
+  }
 `;
 
-export {
-  FetchCurrentGames,
-  FetchMyGames,
-  FetchGameData,
-};
+export { GetAllCurrentGameByPlayer };

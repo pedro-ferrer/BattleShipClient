@@ -1,37 +1,42 @@
 // Package dependencies
-import ApolloClient from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
+import { getMainDefinition } from 'apollo-utilities';
+import { ApolloLink, split } from 'apollo-link';
+import { HttpLink } from 'apollo-link-http';
+import { WebSocketLink } from 'apollo-link-ws';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 // Local dependencies
 import Environment from '../lib/environment';
+const PORT=3030
 
-import { split } from 'apollo-link';
-import { HttpLink } from 'apollo-link-http';
-import { WebSocketLink } from 'apollo-link-ws';
-import { getMainDefinition } from 'apollo-utilities';
-
-// Create an http link:
 const httpLink = new HttpLink({
-  uri: `${Environment.get('API_GATEWAY')}/graphql`
+  uri: `http://localhost:${PORT}/graphql`,
 });
 
-// Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:3030/`,
+  uri: `ws://localhost:${PORT}/graphql`,
   options: {
-    reconnect: true
-  }
+    reconnect: true,
+  },
 });
 
-// using the ability to split links, you can send data to each link
-// depending on what kind of operation is being sent
-const link = split(
-  // split based on operation type
+const terminatingLink = split(
   ({ query }) => {
     const { kind, operation } = getMainDefinition(query);
-    return kind === 'OperationDefinition' && operation === 'subscription';
+    return (
+      kind === 'OperationDefinition' && operation === 'subscription'
+    );
   },
   wsLink,
   httpLink,
 );
 
-export const client = new ApolloClient({link});
+const link = ApolloLink.from([terminatingLink]);
+
+const cache = new InMemoryCache();
+
+export const client = new ApolloClient({
+  link,
+  cache,
+});
