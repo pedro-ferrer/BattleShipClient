@@ -8,7 +8,7 @@ const GetAllCurrentGameByPlayer = gql`
       timePlayed
       currentTurn{
         id
-        name
+        player : name
       }
     }
   }
