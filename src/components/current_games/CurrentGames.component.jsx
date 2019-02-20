@@ -1,6 +1,12 @@
 // Package dependencies
 import React, { Component, Fragment } from "react";
-import { compose, graphql, withApollo, Query } from "react-apollo";
+import {
+  compose,
+  graphql,
+  withApollo,
+  Query,
+  Subscription
+} from "react-apollo";
 import { Table } from "reactstrap";
 
 // Local dependencies
@@ -9,15 +15,18 @@ import { NewGameCreated } from "../../graphql/subscriptions/Game";
 import { GetAllCurrentGameByPlayer } from "../../graphql/queries/Game";
 
 class CurrentGames extends Component {
-  state = { gamesAvailable: [] };
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-  getRows = () => {
-    if (this.props.data.currentGames) {
-      return this.props.data.currentGames.map((gameData, index) => (
+  getRows(listCurrentGameByPlayer) {
+    if (listCurrentGameByPlayer) {
+      return listCurrentGameByPlayer.map((gameData, index) => (
         <TableRow index={index} {...gameData} />
       ));
     }
-  };
+  }
 
   render() {
     return (
@@ -33,6 +42,7 @@ class CurrentGames extends Component {
               <th />
             </tr>
           </thead>
+          <tbody>{this.getRows()}</tbody>
           <Query
             query={GetAllCurrentGameByPlayer}
             variables={{ idPlayer: "5c672a4dee91a42ab49ee510" }}
@@ -41,10 +51,9 @@ class CurrentGames extends Component {
             {({ loading, error, data }) => {
               if (loading) return <div>Loading...</div>;
               if (error) return <div>Error</div>;
-              if(!this.props.data.currentGames){
-                this.props.data.currentGames = data.getAllCurrentGameByPlayer;
-              }
-              return (<tbody>{this.getRows()}</tbody>);
+              return (
+                <tbody>{this.getRows(data.getAllCurrentGameByPlayer)}</tbody>
+              );
             }}
           </Query>
         </Table>
@@ -53,10 +62,26 @@ class CurrentGames extends Component {
   }
 
   componentWillMount() {
-    this.props.client.subscribe({
-      query: NewGameCreated,
-      fetchPolicy: "no-cache"
-    });
+    /*Code storage, will be functional later */
+
+
+    // this.props.client
+    //   .subscribe({
+    //     query: NewGameCreated,
+    //     fetchPolicy: "network-only"
+    //   })
+    //   .subscribe(currentGamesSubs => {
+    //     this.currentGamesList = currentGamesSubs.data.currentGames;
+    //   });
+    // return(<Subscription subscription={NewGameCreated}>
+    //   {(loading, error, data) => {
+    //     if(data)
+    //       this.props.data.currentGames = data
+    //     return (
+    //       <tbody>{this.getRows()}</tbody>
+    //     );
+    //   }}
+    // </Subscription>)
   }
 }
 

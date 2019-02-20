@@ -1,19 +1,17 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 const CreateGame = gql`
-  mutation($playerId:String){
-  createCurrentGame(playerId:$playerId){
-   id
-    createdAt
-    timePlayed
-    currentTurn{
+  mutation($playerId: String) {
+    createCurrentGame(playerId: $playerId) {
       id
-      name
+      createdAt
+      timePlayed
+      currentTurn {
+        id
+        name
+      }
     }
   }
-}
 `;
 
-export {
-  CreateGame,
-};
+export { CreateGame };
