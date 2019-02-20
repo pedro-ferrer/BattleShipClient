@@ -42,7 +42,6 @@ class CurrentGames extends Component {
               <th />
             </tr>
           </thead>
-          <tbody>{this.getRows()}</tbody>
           <Query
             query={GetAllCurrentGameByPlayer}
             variables={{ idPlayer: "5c672a4dee91a42ab49ee510" }}
