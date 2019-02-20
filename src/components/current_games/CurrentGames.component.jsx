@@ -4,8 +4,7 @@ import {
   compose,
   graphql,
   withApollo,
-  Query,
-  Subscription
+  Query
 } from "react-apollo";
 import { Table } from "reactstrap";
 

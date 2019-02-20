@@ -7,7 +7,6 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 // Local dependencies
-import Environment from '../lib/environment';
 const PORT=3030
 
 const httpLink = new HttpLink({
