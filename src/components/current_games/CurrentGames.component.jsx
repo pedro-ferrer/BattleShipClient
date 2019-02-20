@@ -23,7 +23,7 @@ class CurrentGames extends Component {
   getRows(listCurrentGameByPlayer) {
     if (listCurrentGameByPlayer) {
       return listCurrentGameByPlayer.map((gameData, index) => (
-        <TableRow index={index} {...gameData} />
+        <TableRow key={index} index={index} {...gameData} />
       ));
     }
   }
@@ -48,8 +48,8 @@ class CurrentGames extends Component {
             // TODO: Unic Player, will be change when implementes User's Module
           >
             {({ loading, error, data }) => {
-              if (loading) return <div>Loading...</div>;
-              if (error) return <div>Error</div>;
+              if (loading) return <tbody><tr><td>Loading games...</td></tr></tbody>;
+              if (error) return <tbody><tr><td>Error!</td></tr></tbody>;
               return (
                 <tbody>{this.getRows(data.getAllCurrentGameByPlayer)}</tbody>
               );

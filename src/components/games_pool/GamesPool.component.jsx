@@ -17,7 +17,7 @@ class GamesPool extends Component {
   state = {gamesAvailable: []};
 
   getRows = () => {
-    return DUMMY_DATA.map((gameData, index) => <TableRow index={index} {...gameData} />);
+    return DUMMY_DATA.map((gameData, index) => <TableRow key={index} index={index} {...gameData} />);
   };
 
   render() {
